@@ -1,4 +1,4 @@
-export const getPoints = (height, radius, segmentsNumber) => {
+const getPointsCoordinates = (height, radius, segmentsNumber) => {
   const A = [0, 0, height];
 
   const points = [];
@@ -17,4 +17,17 @@ export const getPoints = (height, radius, segmentsNumber) => {
   }
 
   return points;
+};
+
+exports.getPoints = (req, res) => {
+  const height = Number(req.query.height);
+  const radius = Number(req.query.radius);
+  const segments = Number(req.query.segments);
+
+  const points = getPointsCoordinates(height, radius, segments);
+
+  res.status(200).json({
+    status: 'success',
+    data: { points },
+  });
 };
