@@ -1,5 +1,7 @@
 import React from 'react';
 import * as THREE from 'three';
+import { ConvexGeometry } from 'three/examples/jsm/geometries/ConvexGeometry';
+import { getPoints } from '../server/cone';
 import './App.css';
 
 class App extends React.Component {
@@ -21,18 +23,17 @@ class App extends React.Component {
 
     canvas.appendChild(renderer.domElement);
 
-    const color = 0xffffff;
-    const intensity = 1;
-    const light = new THREE.DirectionalLight(color, intensity);
-    light.position.set(-1, 10, 20);
-    scene.add(light);
+    const points = getPoints(5, 2, 10);
+    const vectors = [];
 
-    const geometry = new THREE.ConeBufferGeometry(5, 10, 10);
-    const material = new THREE.MeshPhongMaterial({ color: 0xff00f0 });
+    points.forEach((p) => vectors.push(new THREE.Vector3(...p)));
+
+    const geometry = new ConvexGeometry(vectors);
+    const material = new THREE.MeshNormalMaterial({ color: 0xff0000 });
     const cone = new THREE.Mesh(geometry, material);
     scene.add(cone);
 
-    camera.position.z = 50;
+    camera.position.z = 30;
 
     const animate = () => {
       requestAnimationFrame(animate);
