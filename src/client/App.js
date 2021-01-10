@@ -1,7 +1,7 @@
 import React from 'react';
 import * as THREE from 'three';
 import { ConvexGeometry } from 'three/examples/jsm/geometries/ConvexGeometry';
-import { getPoints } from '../server/cone';
+import { coneApi } from './api/api';
 import './App.css';
 
 class App extends React.Component {
@@ -10,7 +10,7 @@ class App extends React.Component {
     this.canvasRef = React.createRef();
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const canvas = this.canvasRef.current;
     const width = canvas.clientWidth;
     const height = canvas.clientHeight;
@@ -23,13 +23,13 @@ class App extends React.Component {
 
     canvas.appendChild(renderer.domElement);
 
-    const points = getPoints(5, 2, 10);
+    const points = await coneApi.getPoints(10, 5, 100);
     const vectors = [];
 
     points.forEach((p) => vectors.push(new THREE.Vector3(...p)));
 
     const geometry = new ConvexGeometry(vectors);
-    const material = new THREE.MeshNormalMaterial({ color: 0xff0000 });
+    const material = new THREE.MeshNormalMaterial();
     const cone = new THREE.Mesh(geometry, material);
     scene.add(cone);
 
