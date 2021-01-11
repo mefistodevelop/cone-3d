@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { ConeContext } from '../../state/ConeState';
 import './Form.scss';
 
 export const Form = () => {
   const [height, setHeight] = useState('');
   const [radius, setRadius] = useState('');
   const [segments, setSegments] = useState('');
+  const { getPoints } = useContext(ConeContext);
 
   const handleHeight = (e) => {
     const { value } = e.target;
@@ -23,8 +25,14 @@ export const Form = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(`${height} ${radius} ${segments}`);
+    if (height && radius && segments) {
+      getPoints(height, radius, segments);
+      setHeight('');
+      setRadius('');
+      setSegments('');
+    }
   };
+
   return (
     <form className="form" onSubmit={handleSubmit}>
       <label className="form__label">
