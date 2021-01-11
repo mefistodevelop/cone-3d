@@ -1,8 +1,7 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, { createContext, useReducer } from 'react';
 import { coneApi } from '../api/api';
 
-const ConeContext = createContext();
-export const useConeData = useContext(ConeContext);
+export const ConeContext = createContext();
 
 const initialState = {
   points: [],

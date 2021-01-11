@@ -2,7 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const isProd = (process.env.NODE_ENV === 'production');
+const isProd = process.env.NODE_ENV === 'production';
 const isDev = !isProd;
 
 module.exports = {
@@ -15,7 +15,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/i,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
@@ -26,16 +26,17 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-        ],
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
     ],
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
   },
   devServer: {
     port: 3000,
     open: true,
+    historyApiFallback: true,
     proxy: {
       '/api': 'http://localhost:8080',
     },
