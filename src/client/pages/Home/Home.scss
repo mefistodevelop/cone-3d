@@ -1,25 +1,54 @@
 .Home {
+  position: relative;
   display: flex;
   justify-content: space-between;
   width: 100%;
 
+  @media (max-width: 43.75rem) {
+    flex-direction: column-reverse;
+    align-items: center;
+  }
+
   &__form {
     padding-top: 4rem;
+
+    @media (max-width: 62rem) {
+      padding-top: 1rem;
+      margin-right: 2rem;
+    }
+
+    @media (max-width: 43.75rem) {
+      margin-right: 0;
+      margin: 0 auto;
+    }
   }
 
   &__cone {
-    max-width: 640px;
+    max-width: 40rem;
+    min-width: 18rem;
     width: 100%;
-    height: 480px;
+    height: 30rem;
     max-height: 100%;
-    box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
-    border: 5px solid #343a40;
+    box-shadow: 0 0 1.5625rem rgba(0, 0, 0, 0.2);
+    border: 0.3125rem solid #343a40;
     background-color: #000;
-    border-radius: 4px;
+    border-radius: 0.25rem;
+    transition: all 0.5s;
 
-    @media (max-width: 992px) {
-      max-width: 480px;
-      max-height: 320px;
+    @media (max-width: 62rem) {
+      max-width: 30rem;
+      max-height: 20rem;
+    }
+
+    @media (max-width: 43.75rem) {
+      position: absolute;
+      transform: translateY(-50rem);
+      margin-bottom: 2rem;
+    }
+
+    &_visible {
+      transform: translateY(0);
+      position: unset;
     }
   }
 }

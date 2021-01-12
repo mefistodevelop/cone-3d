@@ -7,5 +7,9 @@
   &__container {
     @include container;
     margin-top: 2rem;
+
+    @media (max-width: 76.25rem) {
+      padding: 0 1rem;
+    }
   }
 }

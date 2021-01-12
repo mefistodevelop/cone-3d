@@ -73,6 +73,8 @@ class Cone extends React.Component {
 
   resizeRendererToDisplaySize(renderer) {
     const canvas = this.canvasRef.current;
+    if (!canvas) return false;
+
     const width = canvas.clientWidth;
     const height = canvas.clientHeight;
     const needResize = canvas.width !== width || canvas.height !== height;
