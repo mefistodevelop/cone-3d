@@ -9,8 +9,16 @@
     margin-top: 2rem;
   }
 
+  &__form {
+    padding-top: 4rem;
+  }
+
   &__cone {
     width: 640px;
     height: 480px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
+    border: 5px solid #343a40;
+    background-color: #000;
+    border-radius: 4px;
   }
 }

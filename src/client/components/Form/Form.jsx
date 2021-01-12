@@ -68,7 +68,7 @@ export const Form = () => {
         />
       </label>
 
-      <button type="submit" className="form__button">
+      <button type="submit" className="btn btn-secondary form__button">
         Render
       </button>
     </form>
