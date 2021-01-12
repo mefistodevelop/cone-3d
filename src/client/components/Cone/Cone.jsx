@@ -2,7 +2,7 @@ import React from 'react';
 import * as THREE from 'three';
 import { ConvexGeometry } from 'three/examples/jsm/geometries/ConvexGeometry';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import './Cone.css';
+import './Cone.scss';
 
 class Cone extends React.Component {
   constructor(props) {
@@ -18,6 +18,7 @@ class Cone extends React.Component {
 
     const renderer = new THREE.WebGLRenderer();
     const camera = new THREE.PerspectiveCamera(90, width / height, 0.1, 1000);
+    camera.updateProjectionMatrix();
 
     renderer.setSize(width, height);
     canvas.appendChild(renderer.domElement);
@@ -32,6 +33,14 @@ class Cone extends React.Component {
     controls.update();
 
     const animate = () => {
+      if (this.resizeRendererToDisplaySize(renderer)) {
+        const newWidth = canvas.clientWidth;
+        const newHeight = canvas.clientHeight;
+        camera.aspect = newWidth / newHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(newWidth, newHeight);
+      }
+
       requestAnimationFrame(animate);
       renderer.render(this.scene, camera);
     };
@@ -60,6 +69,17 @@ class Cone extends React.Component {
     const material = new THREE.MeshNormalMaterial();
     const cone = new THREE.Mesh(geometry, material);
     return cone;
+  }
+
+  resizeRendererToDisplaySize(renderer) {
+    const canvas = this.canvasRef.current;
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+    const needResize = canvas.width !== width || canvas.height !== height;
+    if (needResize) {
+      renderer.setSize(width, height, false);
+    }
+    return needResize;
   }
 
   render() {

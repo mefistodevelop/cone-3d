@@ -8,11 +8,18 @@
   }
 
   &__cone {
-    width: 640px;
+    max-width: 640px;
+    width: 100%;
     height: 480px;
+    max-height: 100%;
     box-shadow: 0 0 25px rgba(0, 0, 0, 0.2);
     border: 5px solid #343a40;
     background-color: #000;
     border-radius: 4px;
+
+    @media (max-width: 992px) {
+      max-width: 480px;
+      max-height: 320px;
+    }
   }
 }
