@@ -4,7 +4,7 @@ import './About.scss';
 export const About = () => (
   <div className="about">
     <div className="jumbotron">
-      <h1 className="display-4 about__title">About</h1>
+      <h1 className="display-4 about__title">About Cone-3D</h1>
       <p className="lead about__subtitle">
         App creates a 3D model of cone from your data
       </p>
