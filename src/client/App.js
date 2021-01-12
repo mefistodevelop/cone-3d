@@ -1,24 +1,18 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 import './App.scss';
-import { Cone } from './components/Cone/Cone';
-import { Form } from './components/Form/Form';
 import { Header } from './components/Header/Header';
-import { ConeContext } from './state/ConeState';
+import { Home } from './pages/Home/Home';
 
-export const App = () => {
-  const { points } = useContext(ConeContext);
-
-  return (
-    <div className="App">
-      <Header />
-      <div className="App__container">
-        <div className="App__form">
-          <Form />
-        </div>
-        <div className="App__cone">
-          {points.length ? <Cone points={points} /> : null}
-        </div>
-      </div>
+export const App = () => (
+  <div className="App">
+    <Header />
+    <div className="App__container">
+      <Switch>
+        <Route exact path="/" render={() => <Home />} />
+        <Route path="/about" render={() => <h1>About</h1>} />
+        <Route path="/*" render={() => <h1>404</h1>} />
+      </Switch>
     </div>
-  );
-};
+  </div>
+);
