@@ -1,0 +1,42 @@
+@import '../../utils/variables';
+
+.header {
+  background-color: #343a40;
+
+  &__logo {
+    font-weight: 700;
+    cursor: default;
+  }
+
+  &__container {
+    @include container;
+  }
+
+  &__colapse {
+    > div {
+      margin-right: 0 !important;
+    }
+  }
+
+  &__navigation {
+    width: 100%;
+    padding: 0.5rem 0 !important;
+
+    @media (max-width: 992px) {
+      padding: 0.5rem 1rem !important;
+    }
+  }
+
+  &__navigation-list {
+    display: flex;
+    justify-content: space-between;
+    margin-left: auto;
+    max-width: 5rem;
+    width: 100%;
+    list-style: none;
+
+    @media (max-width: 992px) {
+      margin-left: 0;
+    }
+  }
+}
