@@ -17,10 +17,10 @@ export const Header = () => (
 
         <Navbar.Collapse className="header__colapse" id="basic-navbar-nav">
           <Nav className="mr-auto header__navigation-list">
-            <NavLink className="nav-link" to="/home">
+            <NavLink className="nav-link" to="/">
               Home
             </NavLink>
-            <NavLink className="nav-link" to="/link">
+            <NavLink className="nav-link" to="/about">
               About
             </NavLink>
           </Nav>
