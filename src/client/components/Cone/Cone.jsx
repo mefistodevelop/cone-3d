@@ -16,7 +16,7 @@ class Cone extends React.Component {
     const width = canvas.clientWidth;
     const height = canvas.clientHeight;
 
-    const renderer = new THREE.WebGLRenderer();
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
     const camera = new THREE.PerspectiveCamera(90, width / height, 0.1, 1000);
     camera.updateProjectionMatrix();
 
@@ -79,7 +79,7 @@ class Cone extends React.Component {
     const height = canvas.clientHeight;
     const needResize = canvas.width !== width || canvas.height !== height;
     if (needResize) {
-      renderer.setSize(width, height, false);
+      renderer.setSize(width, height, true);
     }
     return needResize;
   }
