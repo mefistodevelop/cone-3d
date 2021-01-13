@@ -2,7 +2,7 @@ import React from 'react';
 import './About.scss';
 
 export const About = () => (
-  <div className="about">
+  <main className="about">
     <div className="jumbotron">
       <h1 className="display-4 about__title">About Cone-3D</h1>
       <p className="lead about__subtitle">
@@ -15,5 +15,5 @@ export const About = () => (
         </a>
       </p>
     </div>
-  </div>
+  </main>
 );

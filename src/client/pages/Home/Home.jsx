@@ -7,16 +7,17 @@ import './Home.scss';
 export const Home = () => {
   const { points } = useContext(ConeContext);
 
-  const coneMod = points.length ? 'Home__cone_visible' : '';
+  const coneMod = points.length ? 'home__cone_visible' : '';
 
   return (
-    <div className="Home">
-      <div className="Home__form">
+    <main className="home">
+      <h1 className="visually-hidden">Creating a cone</h1>
+      <div className="home__form">
         <Form />
       </div>
-      <div className={`Home__cone ${coneMod}`}>
+      <div className={`home__cone ${coneMod}`}>
         {points.length ? <Cone points={points} /> : null}
       </div>
-    </div>
+    </main>
   );
 };
