@@ -1,51 +1,39 @@
 import React from 'react';
-import * as THREE from 'three';
-import { ConvexGeometry } from 'three/examples/jsm/geometries/ConvexGeometry';
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 import './Cone.scss';
+import { createScene } from './helpers/scene';
+import { createCamera } from './helpers/camera';
+import { createRenderer } from './helpers/renderer';
+import { createCone } from './helpers/cone';
+import { Resizer } from './helpers/Resizer';
+import { Loop } from './helpers/Loop';
+import { createControls } from './helpers/controls';
 
 class Cone extends React.Component {
   constructor(props) {
     super(props);
     this.canvasRef = React.createRef();
-    this.scene = new THREE.Scene();
+    this.scene = createScene();
+    this.camera = createCamera();
+    this.renderer = createRenderer();
+    this.resizer = null;
+    this.loop = new Loop(this.camera, this.scene, this.renderer);
+    this.controls = createControls(this.camera, this.renderer.domElement);
+    this.renderCone = this.renderCone.bind(this);
   }
 
   componentDidMount() {
+    const { points } = this.props;
     const canvas = this.canvasRef.current;
-    const width = canvas.clientWidth;
-    const height = canvas.clientHeight;
+    canvas.appendChild(this.renderer.domElement);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    const camera = new THREE.PerspectiveCamera(90, width / height, 0.1, 1000);
-    camera.updateProjectionMatrix();
+    this.resizer = new Resizer(canvas, this.camera, this.renderer);
 
-    renderer.setSize(width, height);
-    canvas.appendChild(renderer.domElement);
-
-    const cone = this.createCone();
+    const cone = createCone(points);
     this.scene.add(cone);
-
-    const controls = new OrbitControls(camera, renderer.domElement);
-    camera.position.z = 30;
-    camera.position.y = -35;
-    camera.position.x = -30;
-    controls.update();
-
-    const animate = () => {
-      if (this.resizeRendererToDisplaySize(renderer)) {
-        const newWidth = canvas.clientWidth;
-        const newHeight = canvas.clientHeight;
-        camera.aspect = newWidth / newHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(newWidth, newHeight);
-      }
-
-      requestAnimationFrame(animate);
-      renderer.render(this.scene, camera);
-    };
-
-    animate();
+    this.controls.update();
+    this.renderCone();
+    this.loop.start();
+    this.controls.addEventListener('change', this.renderCone);
   }
 
   componentDidUpdate(prevProps) {
@@ -53,35 +41,21 @@ class Cone extends React.Component {
 
     if (points !== prevProps.points) {
       this.scene.remove(this.scene.children[0]);
-      const newCone = this.createCone();
-      this.scene.children[0] = newCone;
+      const newCone = createCone(points);
       this.scene.add(newCone);
     }
   }
 
-  createCone() {
-    const { points } = this.props;
-    const vectors = [];
-
-    points.forEach((p) => vectors.push(new THREE.Vector3(...p)));
-
-    const geometry = new ConvexGeometry(vectors);
-    const material = new THREE.MeshNormalMaterial();
-    const cone = new THREE.Mesh(geometry, material);
-    return cone;
+  componentWillUnmount() {
+    this.loop.stop();
+    this.resizer.unsubscribe();
+    this.controls.removeEventListener('change', this.renderCone);
+    this.renderer.dispose();
+    this.scene.remove(this.scene.children[0]);
   }
 
-  resizeRendererToDisplaySize(renderer) {
-    const canvas = this.canvasRef.current;
-    if (!canvas) return false;
-
-    const width = canvas.clientWidth;
-    const height = canvas.clientHeight;
-    const needResize = canvas.width !== width || canvas.height !== height;
-    if (needResize) {
-      renderer.setSize(width, height, true);
-    }
-    return needResize;
+  renderCone() {
+    this.renderer.render(this.scene, this.camera);
   }
 
   render() {
